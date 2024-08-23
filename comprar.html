@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,12 +10,14 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
 
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="index.html">TecnoMarket</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -97,19 +100,19 @@
 
     // Verificar si el valor existe y es un número válido
     if (itemValue && !isNaN(itemValue)) {
-        // Seleccionar la opción correspondiente al valor guardado
-        var selectElement = document.getElementById('producto');
-        var options = selectElement.options;
+      // Seleccionar la opción correspondiente al valor guardado
+      var selectElement = document.getElementById('producto');
+      var options = selectElement.options;
 
-        for (var i = 0; i < options.length; i++) {
-            if (options[i].value === itemValue) {
-                options[i].setAttribute('selected', 'selected');
-                break;
-            }
-        }
-    }
+      for (var i = 0; i < options.length; i++) {
+        if (options[i].value === itemValue) {
+          options[i].setAttribute('selected', 'selected');
+          break;
+        }
+      }
+    }
 
-document.getElementById('comprarform').addEventListener('submit', function (event) {
+    document.getElementById('comprarform').addEventListener('submit', function (event) {
       event.preventDefault(); // Evita que el formulario se envíe normalmente
 
       // Obtener los datos del formulario
@@ -127,13 +130,17 @@ document.getElementById('comprarform').addEventListener('submit', function (even
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({name,direccion,numerotel, correo, producto,cantidad })
+        body: JSON.stringify({ name, direccion, numerotel, correo, producto, cantidad })
       })
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
           }
-          window.location.href = 'https://www.paypal.com/sv/signin'; 
+          if (localStorage.getItem("login") === "ok") {
+            window.location.href = 'DetalleVenta.html';
+          } else {
+            window.location.href = 'login.html';
+          }
           //return response.json();
         })
         .then(data => {
@@ -147,4 +154,5 @@ document.getElementById('comprarform').addEventListener('submit', function (even
     });
   </script>
 </body>
+
 </html>
