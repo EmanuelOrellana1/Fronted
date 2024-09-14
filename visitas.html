@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contador de Vistas - TecnoMarket</title>
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS (opcional) -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="index.html">TecnoMarket</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -36,15 +39,19 @@
     </nav>
 
     <!-- Contenido principal -->
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6 text-center">
-                <h1>Página de Ejemplo</h1>
-                <p>Total de vistas: <span id="view-count">0</span></p>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <h1 class="display-4 mb-4">Visitas TecnoMarket</h1>
+            <div class="card shadow-lg border-0">
+                <div class="card-body">
+                    <h2 class="h4">Total de vistas:</h2>
+                    <p class="h1 mb-0" id="view-count">0</p>
+                </div>
             </div>
         </div>
     </div>
-
+</div>
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
@@ -52,42 +59,26 @@
 
     <!-- Script para manejar el contador de vistas (si es necesario) -->
     <script>
-        
-        document.addEventListener("DOMContentLoaded", function () {
-            // Simulación de contador de vistas, puedes reemplazar esto con lógica del servidor.
-            let views = localStorage.getItem('views') || 0;
-            views++;
-            localStorage.setItem('views', views);
-            document.getElementById('view-count').textContent = views;
-        });
 
-        //Manual
-        const pageName = 'pagina_ejemplo';
-
-    // Función para insertar una vista
-    async function insertView() {
-        await fetch('/api/views', {
-            method: 'POST',
+        fetch('https://backend-production-5fcc.up.railway.app/user', {
+            method: 'GET', // Especificamos que es un método GET (aunque es el valor por defecto)
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ page_name: pageName }),
-        });
-    }
+        })
+            .then(response => {
+                return response.json(); // Convertimos la respuesta a JSON
+            })
+            .then(data => {
+                const countElement = document.getElementById('view-count'); // Obtenemos el span por su id
+                countElement.textContent = data.vistas; // Asignamos el valor de 'vistas' al contenido del span
+            })
+            .catch(error => {
+                console.error('Hubo un problema con la solicitud Fetch:', error);
+            });
 
-    // Función para obtener el total de vistas
-    async function getTotalViews() {
-        const response = await fetch(`/api/views/${pageName}`);
-        const data = await response.json();
-        if (data.views !== undefined) {
-            document.getElementById('view-count').innerText = data.views;
-        }
-    }
-
-    // Llamar a las funciones cuando se carga la página
-    insertView();
-    getTotalViews();
     </script>
 
 </body>
+
 </html>
