@@ -38,20 +38,44 @@
         </div>
     </nav>
 
-    <!-- Contenido principal -->
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6 text-center">
-            <h1 class="display-4 mb-4">Visitas TecnoMarket</h1>
-            <div class="card shadow-lg border-0">
-                <div class="card-body">
-                    <h2 class="h4">Total de vistas:</h2>
-                    <p class="h1 mb-0" id="view-count">0</p>
+  <div class="container mt-5">
+        <div class="row">
+            <!-- Contenido Principal Vistas -->
+            <div class="col-md-6 text-left">
+                <h1 class="h2 mb-4">Visitas TecnoMarket</h1>
+                <div class="card shadow-lg border-0">
+                    <div class="card-body">
+                        <h2 class="h5">Total de vistas:</h2>
+                        <p class="display-4 mb-0" id="view-count">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenido Principal Ventas -->
+            <div class="col-md-6 text-left">
+                <h1 class="h2 mb-4">Ventas Realizadas TecnoMarket</h1>
+                <div class="card shadow-lg border-0">
+                    <div class="card-body">
+                        <h2 class="h5">Total de ventas:</h2>
+                        <p class="display-4 mb-0" id="sales-count"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5 justify-content-end">
+            <!-- Contenido Principal Productos -->
+            <div class="col-md-6 text-right">
+                <h1 class="h2 mb-4">Productos Disponibles TecnoMarket</h1>
+                <div class="card shadow-lg border-0">
+                    <div class="card-body">
+                        <h2 class="h5">Total de productos:</h2>
+                        <p class="display-4 mb-0" id="products-count">50</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
     <!-- Bootstrap JS, Popper.js, and jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
@@ -72,6 +96,24 @@
             .then(data => {
                 const countElement = document.getElementById('view-count'); // Obtenemos el span por su id
                 countElement.textContent = data.vistas; // Asignamos el valor de 'vistas' al contenido del span
+            })
+            .catch(error => {
+                console.error('Hubo un problema con la solicitud Fetch:', error);
+            });
+
+         fetch('http://localhost:3000/dashboard', {
+            method: 'GET', // Especificamos que es un método GET (aunque es el valor por defecto)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => {
+                return response.json(); // Convertimos la respuesta a JSON
+            })
+            .then(data => {
+                console.log(data)
+                const countElement = document.getElementById('sales-count'); // Obtenemos el span por su id
+                countElement.textContent = data.totaldetalleventa.length; // Asignamos el valor de 'vistas' al contenido del span
             })
             .catch(error => {
                 console.error('Hubo un problema con la solicitud Fetch:', error);
